@@ -71,7 +71,7 @@ def lambda_handler(event:, context:)
   #     https: // docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
 
   sourceIp = event['requestContext']['identity']['sourceIp']
-  certPath = './cosmos/client.pem'
+  certPath = './cosmos/cert.pem'
 
   options = {
     pem: File.read(certPath),
