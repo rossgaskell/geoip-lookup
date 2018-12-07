@@ -92,8 +92,11 @@ def lambda_handler(event:, context:)
   return {
     :statusCode => response.code,
     :body => {
-      :message => "Hello World!",
-      :location => response.headers
+      :geoip => {
+        uk_combined: uk_combined,
+        advertise_combined: advertise_combined,
+        country_code: country_code
+      }
     }.to_json
   }
 end
