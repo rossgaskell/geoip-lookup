@@ -66,18 +66,26 @@ def lambda_handler(event:, context:)
   #     # api-gateway-simple-proxy-for-lambda-output-format
   #     https: // docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
 
+  sourceIp = event['requestContext']['identity']['sourceIp']
+  certPath = './cosmos/client.pem'
+
+  options = {
+    pem: File.read(certPath),
+    verify: false
+  }
+
   begin
-    response = HTTParty.get('http://checkip.amazonaws.com/')
+    response = HTTParty.head("https://geoip.test.tools.bbc.co.uk/#{sourceIp}", options)
   rescue HTTParty::Error => error
     puts error.inspect
     raise error
   end
-        		
+
   return {
     :statusCode => response.code,
     :body => {
       :message => "Hello World!",
-      :location => response.body
+      :location => response.headers
     }.to_json
   }
 end
